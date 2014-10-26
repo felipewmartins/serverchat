@@ -10,27 +10,29 @@ public class ChatServer {
   private static final int PORT = 5217;
 
   public ChatServer() throws Exception {
+    @SuppressWarnings("resource")
     ServerSocket soc = new ServerSocket(PORT);
     ClientSockets = new Vector<Socket>();
     LoginNames = new Vector<String>();
+    System.out.println("ChatServer rodando na porta: " + PORT);
 
     while (true) {
       Socket CSoc = soc.accept();
-      AcceptClient obClient = new AcceptClient(CSoc);
+      new AcceptClient(CSoc);
     }
   }
 
   public static void main(String args[]) throws Exception {
 
-    ChatServer ob = new ChatServer();
+     new ChatServer();
   }
 
-  class AcceptClient extends Thread {
+ public class AcceptClient extends Thread {
     Socket ClientSocket;
     DataInputStream din;
     DataOutputStream dout;
 
-    AcceptClient(Socket CSoc) throws Exception {
+    public AcceptClient(Socket CSoc) throws Exception {
       ClientSocket = CSoc;
 
       din = new DataInputStream(ClientSocket.getInputStream());
